@@ -340,22 +340,29 @@
 					.attr(stroke)
 					.click(_pathclick);
 			}
-		};
+		}
 		
-		function _disable_user_select() {
-			$("*").css("-webkit-user-select", "none");
-			$("*").css("-moz-user-select", "none");
-			if (jQuery.browser.msie) {
-				$("body").attr("onselectstart", "return false;");
+		var STYLESHEET;
+		function _setStylesheet (cssText) {
+			var head;
+
+			if (!STYLESHEET) {
+				STYLESHEET = document.createElement('style');
+				head = document.getElementsByTagName('head')[0];
+				head.appendChild(STYLESHEET);
 			}
+
+			STYLESHEET.innerHTML = cssText;
+		}
+
+		function _disable_user_select() {
+			_setStylesheet('* {-webkit-user-select: none, -moz-user-select: none}');
+			$("body").attr("onselectstart", "return false;");
 		}
 		
 		function _enable_user_select() {
-			$("*").css("-webkit-user-select", "text");
-			$("*").css("-moz-user-select", "text");
-			if (jQuery.browser.msie) {
-				$("body").removeAttr("onselectstart");
-			}
+			_setStylesheet('');
+			$("body").removeAttr("onselectstart");
 		}
 		
 		// Event handlers
