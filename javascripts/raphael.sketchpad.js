@@ -43,7 +43,7 @@
 	 */
 	Raphael.sketchpad = function(paper, options) {
 		return new SketchPad(paper, options);
-	}
+	};
 	
 	// Current version.
 	Raphael.sketchpad.VERSION = '0.5.1';
@@ -169,13 +169,13 @@
 				_action_history.add({
 					type: "batch",
 					strokes: jQuery.merge([], _strokes) // Make a copy.
-				})
+				});
 				
 				_redraw_strokes();
 				_fire_change();
 			}
 			return self; // function-chaining
-		}
+		};
 		
 		self.freeze_history = function() {
 			_action_history.freeze();
@@ -222,6 +222,19 @@
 		};
 		
 		self.animate = function(ms) {
+			function animate() {
+				var stroke = _strokes[i];
+				var type = stroke.type;
+				_paper[type]()
+					.attr(stroke)
+					.click(_pathclick);
+
+				i++;
+				if (i < _strokes.length) {
+					setTimeout(animate, ms);
+				}
+			}
+
 			if (ms === undefined) {
 				ms = 500;
 			}
@@ -231,18 +244,6 @@
 			if (_strokes.length > 0) {
 				var i = 0;
 
-				function animate() {
-					var stroke = _strokes[i];
-					var type = stroke.type;
-					_paper[type]()
-						.attr(stroke)
-						.click(_pathclick);
-
-					i++;
-					if (i < _strokes.length) {
-						setTimeout(animate, ms);
-					}
-				};
 
 				animate();
 			}
@@ -251,6 +252,8 @@
 		};
 		
 		self.editing = function(mode) {
+			var agent;
+
 			if (mode === undefined) {
 				return _options.editing;
 			}
@@ -266,7 +269,7 @@
 					$(document).unbind("mouseup", _mouseup);
 
 					// iPhone Events
-					var agent = navigator.userAgent;
+					agent = navigator.userAgent;
 					if (agent.indexOf("iPhone") > 0 || agent.indexOf("iPod") > 0) {
 						$(_container).unbind("touchstart", _touchstart);
 						$(_container).unbind("touchmove", _touchmove);
@@ -284,7 +287,7 @@
 					$(document).mouseup(_mouseup);
 
 					// iPhone Events
-					var agent = navigator.userAgent;
+					agent = navigator.userAgent;
 					if (agent.indexOf("iPhone") > 0 || agent.indexOf("iPod") > 0) {
 						$(_container).bind("touchstart", _touchstart);
 						$(_container).bind("touchmove", _touchmove);
@@ -300,7 +303,7 @@
 				$(document).unbind("mouseup", _mouseup);
 				
 				// iPhone Events
-				var agent = navigator.userAgent;
+				agent = navigator.userAgent;
 				if (agent.indexOf("iPhone") > 0 || agent.indexOf("iPod") > 0) {
 					$(_container).unbind("touchstart", _touchstart);
 					$(_container).unbind("touchmove", _touchmove);
@@ -309,14 +312,14 @@
 			}
 			
 			return self; // function-chaining
-		}
+		};
 		
 		// Change events
 		//----------------
 		
 		var _change_fn = function() {};
 		self.change = function(fn) {
-			if (fn == null || fn === undefined) {
+			if (fn === null || fn === undefined) {
 				_change_fn = function() {};
 			} else if (typeof fn == "function") {
 				_change_fn = fn;
@@ -325,7 +328,7 @@
 		
 		function _fire_change() {
 			_change_fn();
-		};
+		}
 		
 		// Miscellaneous methods
 		//------------------
@@ -390,24 +393,24 @@
 				
 				this.remove();
 			}
-		};
+		}
 		
 		function _mousedown(e) {
 			_disable_user_select();
 
 			_pen.start(e, self);
-		};
+		}
 
 		function _mousemove(e) {
 			_pen.move(e, self);
-		};
+		}
 
 		function _mouseup(e) {
 			_enable_user_select();
 			
 			var path = _pen.finish(e, self);
 			
-			if (path != null) {
+			if (path !== null) {
 				// Add event when clicked.
 				path.click(_pathclick);
 				
@@ -424,7 +427,7 @@
 				
 				_fire_change();
 			}
-		};
+		}
 		
 		function _touchstart(e) {
 			e = e.originalEvent;
@@ -538,7 +541,7 @@
 		
 		// Rebuild the strokes from history.
 		self.current_strokes = function() {
-			if (_current_strokes == null) {
+			if (_current_strokes === null) {
 				var strokes = [];
 				for (var i = 0; i <= _current_state; i++) {
 					var action = _history[i];
@@ -612,7 +615,7 @@
 			_width = value;
 
 			return self;
-		}
+		};
 
 		self.opacity = function(value) {
 			if (value === undefined) {
@@ -628,7 +631,7 @@
 			_opacity = value;
 
 			return self;
-		}
+		};
 
 		self.start = function(e, sketchpad) {
 			_drawing = true;
@@ -653,7 +656,7 @@
 		self.finish = function(e, sketchpad) {
 			var path = null;
 			
-			if (_c != null) {
+			if (_c !== null) {
 				if (_points.length <= 1) {
 					_c.remove();
 				} else {
@@ -669,7 +672,7 @@
 		};
 
 		self.move = function(e, sketchpad) {
-			if (_drawing == true) {
+			if (_drawing === true) {
 				var x = e.pageX - _offset.left,
 					y = e.pageY - _offset.top;			
 				_points.push([x, y]);
@@ -678,7 +681,7 @@
 		};
 
 		function points_to_svg() {
-			if (_points != null && _points.length > 1) {
+			if (_points !== null && _points.length > 1) {
 				var p = _points[0];
 				var path = "M" + p[0] + "," + p[1];
 				for (var i = 1, n = _points.length; i < n; i++) {
@@ -689,7 +692,7 @@
 			} else {
 				return "";
 			}
-		};
+		}
 	};
 	
 	Pen.MAX_WIDTH = 1000;
@@ -844,7 +847,7 @@ var equiv = function () {
                 var len;
 
                 // b could be an object literal here
-                if ( ! (hoozit(b) === "array")) {
+                if (hoozit(b) !== "array") {
                     return false;
                 }
 
