@@ -252,62 +252,66 @@
 		};
 		
 		self.editing = function(mode) {
-			var agent;
+			var $container = $(_container),
+				$doc = $(document),
+				agent;
 
 			if (mode === undefined) {
 				return _options.editing;
 			}
 			
 			_options.editing = mode;
+
+
 			if (_options.editing) {
 				if (_options.editing == "erase") {
 					// Cursor is crosshair, so it looks like we can do something.
-					$(_container).css("cursor", "crosshair");
-					$(_container).unbind("mousedown", _mousedown);
-					$(_container).unbind("mousemove", _mousemove);
-					$(_container).unbind("mouseup", _mouseup);
-					$(document).unbind("mouseup", _mouseup);
+					$container.css("cursor", "crosshair");
+					$container.unbind("mousedown", _mousedown);
+					$container.unbind("mousemove", _mousemove);
+					$container.unbind("mouseup", _mouseup);
+					$doc.unbind("mouseup", _mouseup);
 
 					// iPhone Events
 					agent = navigator.userAgent;
 					if (agent.indexOf("iPhone") > 0 || agent.indexOf("iPod") > 0) {
-						$(_container).unbind("touchstart", _touchstart);
-						$(_container).unbind("touchmove", _touchmove);
-						$(_container).unbind("touchend", _touchend);
+						$container.unbind("touchstart", _touchstart);
+						$container.unbind("touchmove", _touchmove);
+						$container.unbind("touchend", _touchend);
 					}
 				} else {
 					// Cursor is crosshair, so it looks like we can do something.
-					$(_container).css("cursor", "crosshair");
+					$container.css("cursor", "crosshair");
 
-					$(_container).mousedown(_mousedown);
-					$(_container).mousemove(_mousemove);
-					$(_container).mouseup(_mouseup);
+					$container.mousedown(_mousedown);
+					$container.mousemove(_mousemove);
+					$container.mouseup(_mouseup);
 
 					// Handle the case when the mouse is released outside the canvas.
-					$(document).mouseup(_mouseup);
+					$doc.mouseup(_mouseup);
 
 					// iPhone Events
 					agent = navigator.userAgent;
 					if (agent.indexOf("iPhone") > 0 || agent.indexOf("iPod") > 0) {
-						$(_container).bind("touchstart", _touchstart);
-						$(_container).bind("touchmove", _touchmove);
-						$(_container).bind("touchend", _touchend);
+						$container.bind("touchstart", _touchstart);
+						$container.bind("touchmove", _touchmove);
+						$container.bind("touchend", _touchend);
 					}
 				}
 			} else {
 				// Reverse the settings above.
-				$(_container).attr("style", "cursor:default");
-				$(_container).unbind("mousedown", _mousedown);
-				$(_container).unbind("mousemove", _mousemove);
-				$(_container).unbind("mouseup", _mouseup);
-				$(document).unbind("mouseup", _mouseup);
+				$container.attr("style", "cursor:default");
+				$container.unbind("mousedown", _mousedown);
+				$container.unbind("mousemove", _mousemove);
+				$container.unbind("mouseup", _mouseup);
+				$doc.unbind("mouseup", _mouseup);
 				
 				// iPhone Events
 				agent = navigator.userAgent;
 				if (agent.indexOf("iPhone") > 0 || agent.indexOf("iPod") > 0) {
-					$(_container).unbind("touchstart", _touchstart);
-					$(_container).unbind("touchmove", _touchmove);
-					$(_container).unbind("touchend", _touchend);
+					$container.unbind("touchstart", _touchstart);
+					$container.unbind("touchmove", _touchmove);
+					$container.unbind("touchend", _touchend);
 				}
 			}
 			
