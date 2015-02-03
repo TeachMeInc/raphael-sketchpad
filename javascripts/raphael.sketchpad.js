@@ -37,7 +37,9 @@
  * The only global variable we expose is Raphael.sketchpad.
  */
 (function(Raphael) {
-	
+	var UNDEFINED,
+		hasTouch = document.documentElement.ontouchstart !== UNDEFINED;
+
 	/**
 	 * Function to create SketchPad object.
 	 */
@@ -272,9 +274,7 @@
 					$container.unbind("mouseup", _mouseup);
 					$doc.unbind("mouseup", _mouseup);
 
-					// iPhone Events
-					agent = navigator.userAgent;
-					if (agent.indexOf("iPhone") > 0 || agent.indexOf("iPod") > 0) {
+					if (hasTouch) {
 						$container.unbind("touchstart", _touchstart);
 						$container.unbind("touchmove", _touchmove);
 						$container.unbind("touchend", _touchend);
@@ -282,7 +282,6 @@
 				} else {
 					// Cursor is crosshair, so it looks like we can do something.
 					$container.css("cursor", "crosshair");
-
 					$container.mousedown(_mousedown);
 					$container.mousemove(_mousemove);
 					$container.mouseup(_mouseup);
@@ -290,9 +289,7 @@
 					// Handle the case when the mouse is released outside the canvas.
 					$doc.mouseup(_mouseup);
 
-					// iPhone Events
-					agent = navigator.userAgent;
-					if (agent.indexOf("iPhone") > 0 || agent.indexOf("iPod") > 0) {
+					if (hasTouch) {
 						$container.bind("touchstart", _touchstart);
 						$container.bind("touchmove", _touchmove);
 						$container.bind("touchend", _touchend);
@@ -306,9 +303,7 @@
 				$container.unbind("mouseup", _mouseup);
 				$doc.unbind("mouseup", _mouseup);
 				
-				// iPhone Events
-				agent = navigator.userAgent;
-				if (agent.indexOf("iPhone") > 0 || agent.indexOf("iPod") > 0) {
+				if (hasTouch) {
 					$container.unbind("touchstart", _touchstart);
 					$container.unbind("touchmove", _touchmove);
 					$container.unbind("touchend", _touchend);
