@@ -1,0 +1,16 @@
+{
+  "name": "raphael-sketchpad",
+  "version": "0.5.1",
+  "description": "Raphael SketchPad Version 0.5.1",
+  "main": "javascripts/raphael.sketchpad.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TeachMeInc/raphael-sketchpad.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TeachMeInc/raphael-sketchpad/issues"
+  },
+  "homepage": "https://github.com/TeachMeInc/raphael-sketchpad#readme"
+}
